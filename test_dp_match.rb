@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 # coding: utf-8
 
-require './diff/dp_match'
+require_relative './diff/dp_match'
 
 def test_ary(aryA, aryB)
 	dptable = Diff::DPmatch.dp_match(aryA,aryB)
@@ -16,10 +16,9 @@ def test_ary(aryA, aryB)
 		print aryA_[i], dptable[i], "\n"
 	end
 =end
-	
 	# p Diff::DPmatch.diff(aryA,aryB)
 	diff_obj = Diff::DPmatch::Create.new(aryA,aryB)
-	diff_obj.diff_slc_format.each { |x| p x}
+	diff_obj.diff_lcs_format.each { |x| p x}
 end
 
 def test(strA, strB)

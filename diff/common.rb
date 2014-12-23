@@ -1,6 +1,12 @@
 # coding: utf-8
 
 module Diff
+
+	def dist(chr1, chr2)
+		return chr1.to_s == chr2.to_s ? 0:1
+	end
+	module_function :dist
+
 	class CreateBase
 		def initialize(aryA, aryB)
 			@aryA, @aryB = aryA, aryB
@@ -12,7 +18,7 @@ module Diff
 		def diff
 			@diff_ary
 		end
-		def diff_slc_format
+		def diff_lcs_format
 			slc = []
 			a, b = 0, 0
 			@diff_ary.each do |diff|

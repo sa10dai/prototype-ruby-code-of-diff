@@ -1,14 +1,10 @@
 #!/usr/bin/ruby
 # coding: utf-8
 
-require "./diff/common"
+require_relative "./common"
 
 module Diff	
 module DPmatch
-	
-	def dist(chr1, chr2)
-		return chr1.to_s == chr2.to_s ? 0:1
-	end
 
 	def dp_match(aryA,aryB)
 		aryA.insert(0," "); aryB.insert(0," ")
@@ -18,19 +14,19 @@ module DPmatch
 		dptable = Array.new(lenA){ Array.new(lenB) }
 
 		# 端を埋める 
-		dptable[0][0] = dist( aryA[0], aryB[0] )
-		1.upto(lenA-1) { |i| dptable[i][0] = dist(aryA[i], aryB[0]) + dptable[i-1][0] }
-		1.upto(lenB-1) { |j| dptable[0][j] = dist(aryA[0], aryB[j]) + dptable[0][j-1] }
+		dptable[0][0] = Diff.dist( aryA[0], aryB[0] )
+		1.upto(lenA-1) { |i| dptable[i][0] = Diff.dist(aryA[i], aryB[0]) + dptable[i-1][0] }
+		1.upto(lenB-1) { |j| dptable[0][j] = Diff.dist(aryA[0], aryB[j]) + dptable[0][j-1] }
 		
 		# スコア表を作成
 		1.upto(lenA-1) do |i|
 			1.upto(lenB-1) do |j|
 				# 現在の位置の距離
-				dist = dist( aryA[i], aryB[j] )	
+				dist = Diff.dist( aryA[i], aryB[j] )	
 				# 現在の位置へとかかるコストをハッシュ
 				costs = { :tate=>dptable[i-1][j] + dist,
-					 :yoko=>dptable[i][j-1] + dist,
-					 :naname=>dptable[i-1][j-1] + dist }
+					 	  :yoko=>dptable[i][j-1] + dist,
+					 	  :naname=>dptable[i-1][j-1] + dist }
 				# 文字が同じ場合は斜め移動を選択、それ以外は最小値
 				if dist == 0
 					dptable[i][j] = costs[:naname]
@@ -66,7 +62,7 @@ module DPmatch
 				best_path = :yoko
 			elsif j == 0
 				best_path = :tate
-			elsif dist(aryA[i], aryB[j]) != 0
+			elsif Diff.dist(aryA[i], aryB[j]) != 0
 				best_path = ( costs[:tate] < costs[:yoko] ? :tate : :yoko )
 			end
 			global_best_path << PATH[best_path]
@@ -96,7 +92,7 @@ module DPmatch
 		aryB.delete_at(0)
 		return result
 	end	
-	module_function :dist, :dp_match, :diff
+	module_function :dp_match, :diff
 
 	class Create < CreateBase
 		def initialize(aryA,aryB)
