@@ -2,6 +2,7 @@
 # coding: utf-8
 
 require_relative './diff/dp_match'
+require_relative './diff/wu'
 
 def test_ary(aryA, aryB)
 	dptable = Diff::DPmatch.dp_match(aryA,aryB)
@@ -17,7 +18,8 @@ def test_ary(aryA, aryB)
 	end
 =end
 	# p Diff::DPmatch.diff(aryA,aryB)
-	diff_obj = Diff::DPmatch::Create.new(aryA,aryB)
+	# diff_obj = Diff::DPmatch::Create.new(aryA,aryB)
+	diff_obj = Diff::Wu::Create.new(aryA,aryB)
 	diff_obj.diff_lcs_format.each { |x| p x}
 end
 
@@ -33,10 +35,12 @@ strB = "s t r i n g"
 test(strA, strB)
 puts
 
-strA = "a r i s e"
-strB = "r a i s e"
+=begin
+strA = "s u r v e y"
+strB = "s u r g r e y"
 test(strA, strB)
 puts
+=end
 
 =begin
 strA = "It was an official languages of almost 60 sovereign state and the most commonly spoken language in sovereign states including the United Kingdom, the United States, Canada, Australia, Ireland, New Zealand and a number of Caribbean nations. It is the third-most-common native language in the world, after Mandarin nor Spanish."
